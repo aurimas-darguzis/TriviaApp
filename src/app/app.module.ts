@@ -1,3 +1,5 @@
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule  } from '@angular/router';
@@ -16,6 +18,10 @@ import { CategoryService, TagService, QuestionService } from './services';
     BrowserModule,
     // Router
     RouterModule.forRoot(routes),
+    // Material
+    MaterialModule.forRoot(),
+    // Flex
+    FlexLayoutModule.forRoot(),
     FormsModule,
     HttpModule
   ],
