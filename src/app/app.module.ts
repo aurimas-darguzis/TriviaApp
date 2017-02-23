@@ -21,7 +21,7 @@ import { CategoryService, TagService, QuestionService } from './services';
     // Material
     MaterialModule.forRoot(),
     // Flex
-    FlexLayoutModule.forRoot(),
+    FlexLayoutModule,
     FormsModule,
     HttpModule
   ],
