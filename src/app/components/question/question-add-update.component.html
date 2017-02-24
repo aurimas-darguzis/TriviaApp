@@ -1,9 +1,9 @@
-<md-card>
-  <form class="question-form">
+<!--<md-card>
+  <form class="question-form" [formGroup]="questionForm" novalidate>
     <md-card-title>Add Question</md-card-title>
     <md-card-header>
       <md-card-title>
-          <md-select placeholder="Category" name="category">
+          <md-select placeholder="Category" name="category" formControlName="category">
             <md-option *ngFor="let category of categories" [value]="category.id">
               {{category.categoryName}}
             </md-option>
@@ -14,8 +14,9 @@
     <md-card-content>
       <md-list> 
         <md-input-container class="full-width" >
-          <input mdInput placeholder="Question">
+          <input mdInput placeholder="Question" formControlName="questionText">
         </md-input-container>
+        
         <p *ngFor="let index of [1,2,3,4]">
           
           <md-input-container class="full-width">
@@ -45,8 +46,8 @@
       <button md-button>CANCEL</button>
     </md-card-actions>
   </form>  
-</md-card>
-<!--<md-card>
+</md-card>-->
+<md-card>
   <form (ngSubmit)="onSubmit()" class="question-form" [formGroup]="questionForm" novalidate>
     <md-card-title>Add Question</md-card-title>
     <md-card-header>
@@ -113,4 +114,4 @@
       <button md-button>CANCEL</button>
     </md-card-actions>
   </form>  
-</md-card>-->
+</md-card>

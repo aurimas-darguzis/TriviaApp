@@ -69,10 +69,10 @@ export class QuestionAddUpdateComponent implements OnInit {
       questionText: [question.questionText, Validators.required],
       tags: '',
       tagsArray: tagsFA,
-      answers: answersFA
-      // ordered: [question.ordered],
-      // explanation: [question.explanation]
-      }  //{validator: questionFormValidator }
+      answers: answersFA,
+      ordered: [question.ordered],
+      explanation: [question.explanation]
+      }, {validator: questionFormValidator }
     );
   }
 
