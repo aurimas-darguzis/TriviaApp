@@ -29,4 +29,11 @@ export class QuestionService {
         return questions;
       });
   }
+
+  saveQuestion(question: Question): Observable<Question> {
+    const url = this._serviceUrl;
+
+    return this.http.post(url, question)
+                .map(res => res.json());
+  }
 }
