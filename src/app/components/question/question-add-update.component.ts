@@ -1,13 +1,11 @@
-import { arrayify } from 'tslint/lib/utils';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn, Validators  } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Category, Question, Answer } from '../../model';
 import { CategoryService, TagService, QuestionService } from '../../services';
 
 @Component({
-  selector: 'app-question-add-update',
   templateUrl: './question-add-update.component.html',
   styleUrls: ['./question-add-update.component.scss']
 })
@@ -29,20 +27,33 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
   get answers(): FormArray {
     return this.questionForm.get('answers') as FormArray;
   }
-
   get tagsArray(): FormArray {
     return this.questionForm.get('tagsArray') as FormArray;
   }
 
+  // Constructor
   constructor(private fb: FormBuilder,
               private router: Router,
               private categoryService: CategoryService,
               private tagService: TagService,
-              private questionService: QuestionService) { }
+              private questionService: QuestionService) {
+  }
 
+  // Lifecycle hooks
   ngOnInit() {
     this.question = new Question();
     this.createForm(this.question);
+
+    const questionControl = this.questionForm.get('questionText');
+
+    questionControl.valueChanges.debounceTime(500).subscribe(v => this.computeAutoTags());
+    this.answers.valueChanges.debounceTime(500).subscribe(v => this.computeAutoTags());
+
+    this.sub = this.categoryService.getCategories()
+                   .subscribe(categories => this.categories = categories);
+
+    this.sub2 = this.tagService.getTags()
+                   .subscribe(tags => this.tags = tags);
   }
 
   ngOnDestroy() {
@@ -56,7 +67,7 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
 
   // Event Handlers
   addTag() {
-    const tag = this.questionForm.get('tags').value;
+    let tag = this.questionForm.get('tags').value;
     if (tag) {
       if (this.enteredTags.indexOf(tag) < 0) {
         this.enteredTags.push(tag);
@@ -65,20 +76,18 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
     }
     this.setTagsArray();
   }
-
   removeEnteredTag(tag) {
     this.enteredTags = this.enteredTags.filter(t => t !== tag);
     this.setTagsArray();
   }
-
   onSubmit() {
-    // Validations
+    // validations
     this.questionForm.updateValueAndValidity();
     if (this.questionForm.invalid) {
       return;
     }
 
-    // get question object from the form
+    // get question object from the forms
     console.log(this.questionForm.value);
     const question: Question = this.getQuestionFromFormValue(this.questionForm.value);
     console.log(question);
@@ -87,6 +96,7 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
     this.saveQuestion(question);
   }
 
+  // Helper functions
   getQuestionFromFormValue(formValue: any): Question {
     let question: Question;
 
@@ -94,7 +104,7 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
     question.questionText = formValue.questionText;
     question.answers = formValue.answers;
     question.categoryIds = [formValue.category];
-    question.tags = [...this.autoTags, ...this.enteredTags];
+    question.tags = [...this.autoTags, ...this.enteredTags]
     question.ordered = formValue.ordered;
     question.explanation = formValue.explanation;
 
@@ -103,8 +113,8 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
 
   saveQuestion(question: Question) {
     this.questionService.saveQuestion(question).subscribe(response => {
-      console.log("navigating ...");
-      this.router.navigate(['/questions'])
+      console.log('navigating ...');
+      this.router.navigate(['/questions']);
     });
   }
 
@@ -127,13 +137,12 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
 
     this.setTagsArray();
   }
-
   setTagsArray() {
     this.tagsArray.controls = [];
-    [...this.autoTags, ...this.enteredTags].forEach(tag => this.tagsArray.push(new FormControl(tag)) );
+    [...this.autoTags, ...this.enteredTags].forEach(tag => this.tagsArray.push(new FormControl(tag)));
   }
-
   createForm(question: Question) {
+
     const fgs: FormGroup[] = question.answers.map(answer => {
       const fg = new FormGroup({
         answerText: new FormControl(answer.answerText, Validators.required),
@@ -153,30 +162,31 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
     const tagsFA = new FormArray(fcs);
 
     this.questionForm = this.fb.group({
-      category: [(question.categories.length > 0 ? question.categories[0] : '' ), Validators.required],
+      category: [(question.categories.length > 0 ? question.categories[0] : ''), Validators.required],
       questionText: [question.questionText, Validators.required],
       tags: '',
       tagsArray: tagsFA,
       answers: answersFA,
       ordered: [question.ordered],
       explanation: [question.explanation]
-      }, {validator: questionFormValidator }
+      }, {validator: questionFormValidator}
     );
   }
+
 }
 
 // Custom Validators
 function questionFormValidator(fg: FormGroup): {[key: string]: boolean} {
-  const answers: Answer[] = fg.get('answer').value;
+  const answers: Answer[] = fg.get('answers').value;
   if (answers.filter(answer => answer.correct).length !== 1) {
-    return { 'correctAnswerCountInvalid' : true }
+    return {'correctAnswerCountInvalid': true }
   }
 
+
   const tags: string[] = fg.get('tagsArray').value;
-  if (tags.length < 3) {
-    return { 'tagCountInvalid': true }
+  if (tags.length  < 3) {
+    return {'tagCountInvalid': true}
   }
 
   return null;
 }
-

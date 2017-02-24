@@ -1,30 +1,24 @@
 md-card {
-    margin: 15px;
+  margin: 15px;
 }
-
 md-card-title {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
-
 md-card-actions {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
-
 .question-form {
-    width: 90%;
+  width: 90%;
 }
-
 .full-width {
-    width: 100%;
+  width: 100%;
 }
- .remove-tag {
-     cursor: pointer;
- }
-
- /deep/md-input-container.ng-invalid.ng-touched .md-input-underline {
-     border-color: red;
- }
-
- /deep/md-hint.error, .error {
-     color: red;
- }
+.remove-tag {
+  cursor: pointer;
+}
+/deep/md-input-container.ng-invalid.ng-touched .md-input-underline {
+  border-color: red;
+}
+/deep/md-hint.error, .error {
+  color: red;
+}
