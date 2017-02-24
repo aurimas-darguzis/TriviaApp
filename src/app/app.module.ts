@@ -1,15 +1,26 @@
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MaterialModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule  } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import 'hammerjs';
+import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { routes } from './app.route';
-import { AppComponent, CategoriesComponent, TagsComponent, QuestionsComponent } from './components';
+import {  AppComponent, CategoriesComponent, TagsComponent,
+          QuestionsComponent, QuestionAddUpdateComponent } from './components';
+
 import { CategoryService, TagService, QuestionService } from './services';
-import { QuestionAddUpdateComponent } from './components/question/question-add-update.component';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
+import { CategoryActions } from './store/actions';
+import { CategoryEffects } from './store/effects';
+import { default as reducer } from './store/app-store';
+
 
 @NgModule({
   declarations: [
@@ -20,15 +31,20 @@ import { QuestionAddUpdateComponent } from './components/question/question-add-u
     // Router
     RouterModule.forRoot(routes),
     // Material
-    MaterialModule.forRoot(),
+    MaterialModule,
     // Flex
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpModule,
+    StoreModule.provideStore(reducer),
+    EffectsModule.run(CategoryEffects)
   ],
   providers: [
-    CategoryService, TagService, QuestionService
+    CategoryService,
+    TagService,
+    QuestionService,
+    CategoryActions
   ],
   bootstrap: [AppComponent]
 })
