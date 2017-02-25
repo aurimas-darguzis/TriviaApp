@@ -10,24 +10,12 @@ import { CategoryService } from './category.service';
 export class QuestionService {
   private _serviceUrl = 'http://localhost:3000/questions';
 
-  constructor(private http: Http,
-              private categoryService: CategoryService) { }
+  constructor(private http: Http) { }
 
   getQuestions(): Observable<Question[]> {
     const url = this._serviceUrl;
 
-    return Observable.forkJoin(
-      this.http.get(url).map<any, Question[]> (res => res.json() ),
-      this.categoryService.getCategories() )
-      .map((combined, index) => {
-        const questions: Question[] = combined[0];
-        const categories: Category[] = combined[1];
-        questions.forEach(q => {
-          q.categories = [];
-          q.categoryIds.forEach(id => q.categories.push(categories.find(element => element.id === id ) ) );
-        });
-        return questions;
-      });
+    return this.http.get(url).map(res => res.json());
   }
 
   saveQuestion(question: Question): Observable<Question> {

@@ -7,6 +7,7 @@ import { compose } from '@ngrx/core/compose';
 
 export interface AppStore {
     categories: Category[];
+    categoryDictionary: {[key: number]: Category}
     tags: string[];
     questions: Question[];
     questionSaveStatus: string;
