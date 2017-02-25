@@ -15,7 +15,7 @@ export class TagActions {
         return {
             type: TagActions.LOAD_TAGS_SUCCESS,
             payload: tags
-        }
-    } 
+        };
+    }
 
 }
