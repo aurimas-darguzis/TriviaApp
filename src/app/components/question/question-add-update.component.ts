@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import { AppStore } from '../../store/app-store';
+import { QuestionActions } from '../../store/actions';
 import { Category, Question, Answer } from '../../model';
 import { CategoryService, TagService, QuestionService } from '../../services';
 
@@ -41,7 +42,7 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder,
               private router: Router,
               private store: Store<AppStore>,
-              private questionService: QuestionService) {
+              private questionActions: QuestionActions) {
     this.categoriesObs = store.select(s => s.categories);
     this.tagsObs = store.select(s => s.tags);
   }
@@ -116,10 +117,7 @@ export class QuestionAddUpdateComponent implements OnInit, OnDestroy {
   }
 
   saveQuestion(question: Question) {
-    this.questionService.saveQuestion(question).subscribe(response => {
-      console.log('navigating ...');
-      this.router.navigate(['/questions']);
-    });
+    this.store.dispatch(this.questionActions.addQuestion(question));
   }
 
   computeAutoTags() {

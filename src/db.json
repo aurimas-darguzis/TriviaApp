@@ -444,6 +444,42 @@
         5
       ],
       "explanation": null
+    },
+    {
+      "id": 9,
+      "answers": [
+        {
+          "answerText": "Database",
+          "correct": true
+        },
+        {
+          "answerText": "In text file on my local machine",
+          "correct": null
+        },
+        {
+          "answerText": "what data?",
+          "correct": null
+        },
+        {
+          "answerText": "I want ice cream",
+          "correct": null
+        }
+      ],
+      "ordered": false,
+      "tags": [
+        "Data",
+        "database",
+        "pizza",
+        "bacon"
+      ],
+      "categories": [],
+      "published": false,
+      "status": 0,
+      "questionText": "Where do you store your data?",
+      "categoryIds": [
+        5
+      ],
+      "explanation": null
     }
   ]
 }
