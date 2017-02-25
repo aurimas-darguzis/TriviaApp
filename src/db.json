@@ -480,6 +480,42 @@
         5
       ],
       "explanation": null
+    },
+    {
+      "id": 10,
+      "answers": [
+        {
+          "answerText": "b",
+          "correct": true
+        },
+        {
+          "answerText": "c",
+          "correct": null
+        },
+        {
+          "answerText": "d",
+          "correct": null
+        },
+        {
+          "answerText": "e",
+          "correct": null
+        }
+      ],
+      "ordered": false,
+      "tags": [
+        "C",
+        "e",
+        "f",
+        "g"
+      ],
+      "categories": [],
+      "published": false,
+      "status": 0,
+      "questionText": "A",
+      "categoryIds": [
+        5
+      ],
+      "explanation": null
     }
   ]
 }
