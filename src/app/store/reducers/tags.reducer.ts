@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import '../../rxjs-extensions';
-import { Action } from '../actions';
+import { Action } from '@ngrx/store';
 
 import { TagActions } from '../actions';
 
