@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/app-store';
 import { CategoryActions, TagActions, QuestionActions } from '../../store/actions';
 import { MdSnackBar } from '@angular/material';
+import { AuthenticationService } from '../../services';
+import { User } from '../../model';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +17,16 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'trivia app!';
   sub: any;
 
+  user: User;
+  sub2: any;
+
   constructor(private categoryActions: CategoryActions,
               private tagActions: TagActions,
               private questionActions: QuestionActions,
               private store: Store<AppStore>,
               private router: Router,
-              private snackBar: MdSnackBar) {
+              private snackBar: MdSnackBar,
+              private authService: AuthenticationService) {
 
     this.sub = store.select(s => s.questionSaveStatus)
                     .subscribe((status) => {
@@ -30,7 +36,9 @@ export class AppComponent implements OnInit, OnDestroy {
                       if (status === 'IN PROGRESS') {
                         this.router.navigate(['/questions']);
                       }
-                    })
+                    });
+
+    this.sub2 = store.select(s => s.user).subscribe(user => this.user = user);
               }
 
   ngOnInit() {
@@ -43,5 +51,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  login() {
+    this.authService.ensureLogin();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

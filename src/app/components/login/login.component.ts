@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 
 import { AppStore} from '../../store/app-store';
+import { passwordAuthDialogRef } from './password-auth.component';
 
 @Component({
     selector: 'login',
@@ -22,6 +23,35 @@ export class LoginComponent {
             provider: AuthProviders.Google,
             method: AuthMethods.Popup
         });
+    }
+
+    fbLogin() {
+        this.af.auth.login({
+            provider: AuthProviders.Facebook,
+            method: AuthMethods.Popup
+        });
+    }
+
+    twitterLogin() {
+        this.af.auth.login({
+            provider: AuthProviders.Twitter,
+            method: AuthMethods.Popup
+        });
+    }
+
+    githubLogin() {
+        this.af.auth.login({
+            provider: AuthProviders.Github,
+            method: AuthMethods.Popup
+        });
+    }
+
+    passwordLogin() {
+        this.passwordAuthDialogRef = this.dialog.open(PasswordAuthComponent, {
+            disableClose: false,
+            width: '600px',
+            height: '400px'
+        }) ;
     }
 
 }
