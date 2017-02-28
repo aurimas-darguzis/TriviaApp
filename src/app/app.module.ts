@@ -60,7 +60,10 @@ export const firebaseConfig = {
     // ngrx effects
     EffectsModule.run(CategoryEffects),
     EffectsModule.run(TagEffects),
-    EffectsModule.run(QuestionEffects)
+    EffectsModule.run(QuestionEffects),
+
+    // firebase
+    AngularFireModule.initializeApp(firebaseConfig),
 
   ],
   providers: [
