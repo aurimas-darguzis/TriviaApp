@@ -6,6 +6,7 @@ import { combineReducers } from '@ngrx/store';
 import { compose } from '@ngrx/core/compose';
 
 export interface AppStore {
+    user: User;
     categories: Category[];
     categoryDictionary: {[key: number]: Category}
     tags: string[];
@@ -14,6 +15,7 @@ export interface AppStore {
 }
 
 export default compose(combineReducers)({
+    user: user,
     categories: categories,
     tags: tags,
     questions: questions,
