@@ -23,6 +23,7 @@ export class QuestionEffects {
     @Effect() 
     addQuestion$ = this.actions$
         .ofType(QuestionActions.ADD_QUESTION)
-        .switchMap((action) => this.svc.saveQuestion(action.payload))
+        .do((action) => this.svc.saveQuestion(action.payload))
+        .filter(() => false );
 
 }

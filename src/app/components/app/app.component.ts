@@ -23,12 +23,14 @@ export class AppComponent implements OnInit, OnDestroy {
               private snackBar: MdSnackBar) {
 
     this.sub = store.select(s => s.questionSaveStatus)
-                    .filter(status => status === 'SUCCESS')
-                    .subscribe(() => {
-                                      this.snackBar.open('Quesiont saved!', '', {duration: 2000});
-                                      this.router.navigate(['/questions']);
-                                    }
-                              )
+                    .subscribe((status) => {
+                      if (status === 'SUCCESS') {
+                        this.snackBar.open('Question saved!', '', { duration: 2000 });
+                      }
+                      if (status === 'IN PROGRESS') {
+                        this.router.navigate(['/questions']);
+                      }
+                    })
               }
 
   ngOnInit() {
