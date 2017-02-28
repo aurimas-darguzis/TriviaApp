@@ -1,4 +1,4 @@
-import { Category, Question } from '../model';
+import { Category, Question, User } from '../model';
 
 import { categories, tags, questions, questionSaveStatus } from './reducers';
 
@@ -15,7 +15,7 @@ export interface AppStore {
 }
 
 export default compose(combineReducers)({
-    user: user,
+    user: User,
     categories: categories,
     tags: tags,
     questions: questions,
