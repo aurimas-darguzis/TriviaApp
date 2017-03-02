@@ -21,6 +21,6 @@ export class PasswordAuthComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
-        
+        console.log('this is the day when I commit only once :)')
     }
 }
