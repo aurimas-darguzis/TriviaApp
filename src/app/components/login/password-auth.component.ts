@@ -32,7 +32,62 @@ export class PasswordAuthComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.signinForm = this.fb.group({
+            email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEXP)])],
+            password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+        });
 
+        this.signupForm = this.fb.group({
+            email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEXP)])],
+            password: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+            confirmPassword: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+            }, {validator: signupFormValidator}
+        );
+
+        this.forgotPasswordForm = this.fb.group({
+            email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEXP)])]
+        });
+    }
+
+    // signin
+    onSigninSubmit() {
+        this.af.auth.login({
+            email: this.signinForm.get('email').value,
+            password: this.signinForm.get('password').value
+        }, {
+            method: AuthMethods.Password
+        }).then((user: FirebaseAuthState) => {
+            // success
+            this.dialogRef.close();
+        }, (error: Error) => {
+            // error
+            console.log(error);
+        });
+    }
+
+    // register
+    onSignupSubmit() {
+        this.af.auth.createUser({
+            email: this.signupForm.get('email').value,
+            password: this.signupForm.get('password').value
+        }).then((user: FirebaseAuthState) => {
+            // success
+            this.dialogRef.close();
+        }, (error: Error) => {
+            // error
+            console.log(error);
+        });
+    }
+
+    // forgot password
+    onForgotPasswordSubmit() {
+        firebase.auth().sendPasswordResetEmail(this.forgotPasswordForm.get('email').value)
+        .then((a: any) => {
+            console.log(a);
+        },
+        (error: Error) => {
+            console.log(error);
+        });
     }
 }
 
