@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 
 import { AppStore} from '../../store/app-store';
-import { passwordAuthDialogRef } from './password-auth.component';
+import { PasswordAuthComponent } from './password-auth.component';
 
 @Component({
     selector: 'login',
