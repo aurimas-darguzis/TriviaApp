@@ -18,9 +18,37 @@ const EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+
 })
 export class PasswordAuthComponent implements OnInit {
 
-    constructor() {}
+    mode: SignInMode;
+
+    signupForm: FormGroup;
+    signinForm: FormGroup;
+    forgotPasswordForm: FormGroup;
+
+    constructor(private fb: FormBuilder,
+                private store: Store<AppStore>,
+                private af: AngularFire,
+                public dialogRef: MdDialogRef<PasswordAuthComponent>) {
+        this.mode = SignInMode.signIn;
+    }
 
     ngOnInit() {
-        console.log('this is the day when I commit only once :)')
+
     }
+}
+
+enum SignInMode {
+    signIn,
+    signUp,
+    forgotPassword
+}
+
+function signupFormValidator(fg: FormGroup): {[key: string]: boolean} {
+    // TODO: check if email is already taken
+
+    // Password match validation
+    if (fg.get('password').value !== fg.get('confirmPassword').value) {
+        return  {'passwordmismatch': true };
+    }
+
+    return null;
 }
