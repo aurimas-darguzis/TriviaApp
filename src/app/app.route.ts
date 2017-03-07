@@ -3,6 +3,7 @@ import { CategoriesComponent,
          TagsComponent,
          QuestionsComponent,
          QuestionAddUpdateComponent } from './components/index';
+import { AuthGuard } from './services';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,7 @@ export const routes: Routes = [
   },
   {
     path: 'questions/add',
-    component: QuestionAddUpdateComponent
+    component: QuestionAddUpdateComponent,
+    canActivate: [AuthGuard]
   }
 ];
