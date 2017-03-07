@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { AngularFire } from 'angularfire2';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import './rxjs-extensions';
 
 import { AppStore } from '../store/app-store';
 import { LoginComponent } from '../components/login/login.component';
-import { UserActions } from '../store/actions';
+import { UserActions, UIStateActions } from '../store/actions';
 import { User } from '../model';
 
 @Injectable()
@@ -14,6 +15,7 @@ export class AuthenticationService {
 
     constructor(private store: Store<AppStore>,
                 private userActions: UserActions,
+                private uiStateActions: UIStateActions,
                 private af: AngularFire,
                 private dialog: MdDialog) {
 
@@ -38,6 +40,7 @@ export class AuthenticationService {
   };
 
   showLogin = function() {
+      this.store.dispatch(this.uiStateActions.setLoginRedirectUrl(url));
       this.dialogRef = this.dialog.open(LoginComponent, {
           disableClose: false
       });
